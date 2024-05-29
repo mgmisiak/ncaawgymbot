@@ -15,25 +15,25 @@ const settings = [
 ];
 
 async function get_feeds(url) {
-	console.log("Entering get_feeds function for " + url);
+	//console.log("Entering get_feeds function for " + url);
   const feed = await parser.parseURL(url);
   let output = [];
   let ordered = collect(feed.items);
   ordered = ordered.reverse();
   for (const item of ordered) {
-  	console.log("Title: " + item.title);
-    console.log("Link: " + item.link);
+  	//console.log("Title: " + item.title);
+    //console.log("Link: " + item.link);
     output.push({
       title: item.title,
       link: item.link,
     });
   }
-  console.log("Done with get_feeds!");
+  //console.log("Done with get_feeds!");
   return output;
 }
 
 async function post(agent, item) {
-	console.log("Entered post function");
+	//console.log("Entered post function");
   let post = {
     $type: "app.bsky.feed.post",
     text: item.title + "\n\n#NCAAGym",
@@ -83,17 +83,15 @@ async function post(agent, item) {
   };
   const res = AppBskyFeedPost.validateRecord(post);
   if (res.success) {
-    console.log(post);
-    //await agent.post(post);
+    //console.log(post);
+    await agent.post(post);
   } else {
     console.log(res.error);
   }
 }
 
 async function main(setting) {
-	console.log("Entering main");
-	console.log(process.env.BSKY_HANDLE);
-	console.log(setting.account);
+	//console.log("Entering main");
   const agent = new BskyAgent({ service: "https://bsky.social" });
   await agent.login({
     identifier: setting.account,
@@ -107,10 +105,9 @@ async function main(setting) {
     limit: 100,
     cursor: cursor,
   });
-  console.log(response);
   cursor = response.cursor;
   for (const feed of response.data.feed) {
-  	console.log(feed);
+  	//console.log(feed);
   	if(typeof feed.post.record.embed !== "undefined") {
   		processed.add(feed.post.record.embed.external.uri);
   	}
@@ -124,19 +121,18 @@ async function main(setting) {
     }
   }
 }
-// async function entrypoint() {
-//   for (const setting of settings) {
-//     console.log("process " + setting.url);
-//     await main(setting);
-//   }
-//   console.log("--- finish ---");
-// }
-// entrypoint();
-//functions.cloudEvent("entrypoint", async (_) => {
+async function entrypoint() {
   for (const setting of settings) {
     console.log("process " + setting.url);
-    //await 
-    main(setting);
+    await main(setting);
   }
   console.log("--- finish ---");
-//});
+}
+entrypoint();
+/*functions.cloudEvent("entrypoint", async (_) => {
+  for (const setting of settings) {
+    console.log("process " + setting.url);
+    await main(setting);
+  }
+  console.log("--- finish ---");
+});*/
