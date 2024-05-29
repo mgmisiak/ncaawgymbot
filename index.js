@@ -34,7 +34,8 @@ async function get_feeds(url) {
 
 async function post(agent, item) {
 	//console.log("Entered post function");
-	const richText = new RichText(item.title + "\n\n#NCAAGym");
+	const text =  item.title + "\n\n#NCAAGym";
+	const richText = new RichText({text});
 	await richText.detectFacets(agent);
   let post = {
     $type: "app.bsky.feed.post",
@@ -117,7 +118,7 @@ async function main(setting) {
     processed.add(feed.post.record.text);
   }
   for (const feed of await get_feeds(setting.url)) {
-    if (!processed.has(feed.title + " #NCAAGym") && !processed.has(feed.link)) {
+    if (!processed.has(feed.title + "\n\n#NCAAGym") && !processed.has(feed.link)) {
       await post(agent, feed);
     } else {
       console.log("skipped " + feed.title);
