@@ -1,6 +1,6 @@
 import collect from 'collect.js';
 import pkg from '@atproto/api';
-const { BskyAgent, AppBskyFeedPost } = pkg;
+const { BskyAgent, AppBskyFeedPost, RichText } = pkg;
 import cheerio from "cheerio";
 import sharp from "sharp";
 import Parser from "rss-parser";
@@ -34,9 +34,12 @@ async function get_feeds(url) {
 
 async function post(agent, item) {
 	//console.log("Entered post function");
+	const richText = new RichText(item.title + "\n\n#NCAAGym");
+	await richText.detectFacets(agent);
   let post = {
     $type: "app.bsky.feed.post",
-    text: item.title + " #NCAAGym",
+    text: richText.text,
+    facets: richText.facets,
     createdAt: new Date().toISOString(),
   };
   const dom = await fetch(item.link)
