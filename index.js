@@ -1,9 +1,9 @@
-const functions = require("@google-cloud/functions-framework");
-const collect = require('collect.js');
-const { BskyAgent, AppBskyFeedPost } = require("@atproto/api");
-const cheerio = require("cheerio");
-const sharp = require("sharp");
-const Parser = require("rss-parser");
+import collect from 'collect.js';
+import pkg from '@atproto/api';
+const { BskyAgent, AppBskyFeedPost } = pkg;
+import cheerio from "cheerio";
+import sharp from "sharp";
+import Parser from "rss-parser";
 const parser = new Parser();
 
 const settings = [
