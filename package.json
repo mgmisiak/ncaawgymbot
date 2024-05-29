@@ -1,6 +1,6 @@
 {
   "name": "ncaawgymbot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A bot to post NCAA.com women's gymnastics articles via RSS. Adapted from the bsky-bot template by Phil Nash and bbc-to-bluesky by Takanori Maehara.",
   "main": "index.js",
   "type": "module",
