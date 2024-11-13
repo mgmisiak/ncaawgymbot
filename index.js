@@ -34,7 +34,7 @@ async function get_feeds(url) {
 
 async function post(agent, item) {
 	//console.log("Entered post function");
-	const text =  item.title + "\n\n#NCAAGym";
+	const text =  item.title + "\n\n #NCAAGym #GymSky #Gymternet #Gymnastics";
 	const richText = new RichText({text});
 	await richText.detectFacets(agent);
   let post = {
