@@ -118,7 +118,7 @@ async function main(setting) {
     processed.add(feed.post.record.text);
   }
   for (const feed of await get_feeds(setting.url)) {
-    if (!processed.has(feed.title + "\n\n#NCAAGym") && !processed.has(feed.link)) {
+    if (!processed.has(feed.title + "\n\n #NCAAGym #GymSky #Gymternet #Gymnastics") && !processed.has(feed.link)) {
       await post(agent, feed);
     } else {
       console.log("skipped " + feed.title);
